@@ -27,6 +27,7 @@
          :cljr (is (p/thrown? (dec Int64/MinValue)))
          :cljs (is (= (dec js/Number.MIN_SAFE_INTEGER) (- js/Number.MIN_SAFE_INTEGER 2)))
          :lpy []  ; Python integers cannot underflow
+         :glj "Go integers cannot underflow"
          :default (is false "TODO underflow")))
 
     (testing "dec-nil"

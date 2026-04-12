@@ -39,6 +39,7 @@
 
     #?@(:cljs []
         :bb []
+        :glj ["int range checks not implemented"]
         :cljr
         [ ;; `int` throws outside the range of 32767 ... -32768.
          (is (p/thrown? (int -2147483648.000001)))

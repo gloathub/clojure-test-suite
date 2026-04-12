@@ -104,6 +104,9 @@
        :lpy
        nil
 
+       :glj
+       "no refs in glj yet"
+
        :default
        (testing "remove watch refs"
          (let [messages (volatile! #{})
@@ -153,6 +156,9 @@
        ;; Basilisp does not implement agents.
        :lpy
        nil
+
+       :glj
+       "no agents in glj yet"
 
        :default
        (testing "remove watch agents"

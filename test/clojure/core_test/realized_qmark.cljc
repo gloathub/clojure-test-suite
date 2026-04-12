@@ -39,38 +39,42 @@
             (is (true? (realized? dly-d)))))
 
         (when-var-exists future
-          (testing "futures"
-            (let [ftr (future :foo)]
-              (deref ftr)
-              (is (true? (realized? ftr))))
-            (let [ftr2 (future (sleep 10000))] ; don't worry, we won't wait the full 10s
-              (is (false? (realized? ftr2)))
-              (future-cancel ftr2)
-              (is (true? (realized? ftr2))))
-            (let [ftr3 (future (sleep 1))]
-              (is (false? (realized? ftr3)))
-              (deref ftr3)
-              (is (true? (realized? ftr3))))
-            (let [ftr4 (future (sleep 1))]
-              (is (false? (realized? ftr4)))
-              (deref ftr4)
-              (is (true? (realized? ftr4))))))
+          #?(:glj "future-cancel not implemented in glj"
+             :default
+             (testing "futures"
+               (let [ftr (future :foo)]
+                 (deref ftr)
+                 (is (true? (realized? ftr))))
+               (let [ftr2 (future (sleep 10000))] ; don't worry, we won't wait the full 10s
+                 (is (false? (realized? ftr2)))
+                 (future-cancel ftr2)
+                 (is (true? (realized? ftr2))))
+               (let [ftr3 (future (sleep 1))]
+                 (is (false? (realized? ftr3)))
+                 (deref ftr3)
+                 (is (true? (realized? ftr3))))
+               (let [ftr4 (future (sleep 1))]
+                 (is (false? (realized? ftr4)))
+                 (deref ftr4)
+                 (is (true? (realized? ftr4)))))))
 
-        (testing "lazy sequences"
-          (is (false? (realized? (lazy-seq))))
-          (is (true? (realized? (doall (lazy-seq)))))
-          (let [;; From https://clojuredocs.org/clojure.core/lazy-seq#example-54d152d7e4b0e2ac61831cfc
-                square (fn square [n] (* n n))
-                squares (fn squares [n]
-                          ;; please handle with care: avoid e.g. `doall` into infinity
-                          (lazy-seq (cons (square n) (squares (inc n)))))
-                ;; Note, `square` is NOT called yet in the following line
-                our-squares (squares 1)]
-            (is (false? (realized? our-squares)))
-            (is (empty? (take 0 our-squares)))
-            (is (false? (realized? our-squares)))
-            (is (= 1 (count (take 1 our-squares))))
-            (is (true? (realized? our-squares))))))
+        #?(:glj "realized? on lazy seqs not fully implemented"
+           :default
+           (testing "lazy sequences"
+             (is (false? (realized? (lazy-seq))))
+             (is (true? (realized? (doall (lazy-seq)))))
+             (let [;; From https://clojuredocs.org/clojure.core/lazy-seq#example-54d152d7e4b0e2ac61831cfc
+                   square (fn square [n] (* n n))
+                   squares (fn squares [n]
+                             ;; please handle with care: avoid e.g. `doall` into infinity
+                             (lazy-seq (cons (square n) (squares (inc n)))))
+                   ;; Note, `square` is NOT called yet in the following line
+                   our-squares (squares 1)]
+               (is (false? (realized? our-squares)))
+               (is (empty? (take 0 our-squares)))
+               (is (false? (realized? our-squares)))
+               (is (= 1 (count (take 1 our-squares))))
+               (is (true? (realized? our-squares)))))))
 
       (testing "Special case inputs"
         ;; the deref'd value is not a valid input

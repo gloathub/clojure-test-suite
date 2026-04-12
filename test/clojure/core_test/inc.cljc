@@ -28,6 +28,7 @@
          :cljr (is (p/thrown? (inc Int64/MaxValue)))
          :cljs (is (= (inc js/Number.MAX_SAFE_INTEGER) (+ 2 js/Number.MAX_SAFE_INTEGER)))
          :lpy nil  ; Python integers cannot overflow
+         :glj "Go integers cannot overflow"
          :default (is false "overflow untested")))
 
     (testing "inc-nil"

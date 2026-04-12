@@ -23,6 +23,7 @@
        #?@(:cljr []
            :lpy []
            :clj [r/min-int r/min-int] ; fixed int 2's complement oddity, see below for :cljr
+           :glj [r/min-int r/min-int] ; same as clj: 2's complement, no positive representation
            :default [r/min-int (* -1 r/min-int)])
        #?@(:cljs []
            :default

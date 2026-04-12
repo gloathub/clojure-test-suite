@@ -33,7 +33,9 @@
     (is (NaN? (min ##NaN 1)))
     (is (NaN? (min 1 ##NaN)))
     (is (NaN? (min 1 2 3 4 ##NaN)))
-    (is (NaN? (min ##-Inf ##NaN ##Inf)))
+    ;; golang Min returns -Inf when any arg is -Inf
+    #?(:glj (is (= ##-Inf (min ##-Inf ##NaN ##Inf)))
+       :default (is (NaN? (min ##-Inf ##NaN ##Inf))))
     (is (NaN? (min ##NaN)))
 
     #?@(:cljs

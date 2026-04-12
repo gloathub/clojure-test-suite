@@ -26,7 +26,8 @@
   (#?(:cljr System.Threading.Thread/Sleep
       :cljs #(js/setTimeout identity %)
       :clj Thread/sleep
-      :lpy time/sleep)
+      :lpy time/sleep
+      :glj #(time.Sleep (time.Duration (* time.Millisecond %))))
    ms))
 
 ;; --- Portable exception multimethod. ---
@@ -64,6 +65,7 @@
          ~@body
          (report-failure# failure-opts#)
          (catch #?(:jank ~'jank.runtime.object_ref
+                   :glj ~'go/any
                    :clj ~'Throwable
                    :default ~'Exception) e#
            (report-success# (success-opts# e#))

@@ -25,4 +25,10 @@
            -0.5M -1/2]))
 
     ;; `bigdec` must produce objects that satisfy `decimal?`
-    (is (decimal? (bigdec 1)))))
+    (is (decimal? (bigdec 1)))
+
+    #?@(:cljs []
+        :default
+        [(is (instance? #?(:cljr clojure.lang.BigDecimal
+                           :glj github.com:gloathub:glojure:pkg:lang.*BigDecimal
+                           :default java.math.BigDecimal) (bigdec 1)))])))

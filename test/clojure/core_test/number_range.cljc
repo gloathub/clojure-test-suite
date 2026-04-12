@@ -5,12 +5,14 @@
 (def ^:const max-int #?(:clj Long/MAX_VALUE
                         :cljr Int64/MaxValue
                         :cljs js/Number.MAX_SAFE_INTEGER
+                        :glj math.MaxInt64
                         :jank (#cpp (:member (std.numeric_limits jank.i64) max))
                         :default 0x7FFFFFFFFFFFFFFF))
 
 (def ^:const min-int #?(:clj Long/MIN_VALUE
                         :cljr Int64/MinValue
                         :cljs js/Number.MIN_SAFE_INTEGER
+                        :glj math.MinInt64
                         :jank (#cpp (:member (std.numeric_limits jank.i64) min))
                         :default -0x8000000000000000))
 

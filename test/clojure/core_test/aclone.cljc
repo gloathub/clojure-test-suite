@@ -14,7 +14,8 @@
       (is (every? identity (map #(= (aget a %) (aget a' %)) (range 3))))
       (is (zero? (alength b')))
       (is (not (identical? a a')))
-      (is (not (identical? b b')))
+      #?(:glj "empty slices are identical in Go"
+         :default (is (not (identical? b b'))))
       (aset a 1 11)
       (is (= 11 (aget a 1)))
       (is (= 2 (aget a' 1)))

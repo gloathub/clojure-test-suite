@@ -20,7 +20,8 @@
                                           (catch #?(:cljs :default
                                                     :clj clojure.lang.ExceptionInfo
                                                     :cljr clojure.lang.ExceptionInfo
-                                                    :lpy basilisp.lang.exception/ExceptionInfo) e
+                                                    :lpy basilisp.lang.exception/ExceptionInfo
+                                                    :glj github.com:gloathub:glojure:pkg:lang.IExceptionInfo) e
                                             (let [data (ex-data e)]
                                               (vswap! state conj data)))))]
                         (do-update a)
@@ -91,7 +92,8 @@
                                                (catch #?(:cljs :default
                                                          :clj clojure.lang.ExceptionInfo
                                                          :cljr clojure.lang.ExceptionInfo
-                                                         :lpy basilisp.lang.exception/ExceptionInfo) e
+                                                         :lpy basilisp.lang.exception/ExceptionInfo
+                                                         :glj github.com:gloathub:glojure:pkg:lang.IExceptionInfo) e
                                                  (let [{:keys [old] :as data} (ex-data e)]
                                                    (vswap! state conj data)))))]
                              (do-update #'testvar-a)
@@ -145,6 +147,7 @@
 
     #?(:cljs nil
        :lpy nil
+       :glj "no refs in glj yet"
        :default
        (testing "watch ref"
          (let [state (volatile! [])
@@ -217,6 +220,7 @@
 
     #?@(:cljs []
         :lpy []
+        :glj ["no agents in glj yet"]
         :default
         [(testing "watch agent"
            (let [state (volatile! [])

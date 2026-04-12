@@ -11,18 +11,13 @@ pom.xml.asc
 /.prepl-port
 .hgignore
 .hg/
-/.clj-kondo/*
-!/.clj-kondo/config.edn
-/.lsp/*
-!/.lsp/config.edn
+/.clj-kondo
+/.lsp
 *~
 .*.swp
 /node_modules
 /.shadow-cljs
 /.cpcache
-.idea
-*.iml
-__pycache__/
-.python-version
-poetry.lock
-*.egg-info/
+
+# temporary glojure ignores
+report.html

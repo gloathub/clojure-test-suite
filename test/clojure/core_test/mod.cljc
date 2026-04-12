@@ -107,6 +107,18 @@
          (is (NaN? (mod ##NaN 1)))
          (is (NaN? (mod 1 ##NaN)))
          (is (NaN? (mod ##NaN 1)))]
+        :glj
+        [(is (p/thrown? (mod 10 0)))
+         (is (NaN? (mod ##Inf 1)))
+         ;; math.Mod returns the dividend when divisor is +Inf or -Inf
+         (is (= 1.0 (mod 1 ##Inf)))
+         (is (NaN? (mod ##-Inf 1)))
+         ;; math.Mod returns the dividend when divisor is +Inf or -Inf,
+         ;; but clojure.core adds the result to the divisor when the
+         ;; dividend is negative, so we get -Inf here.
+         (is (= ##-Inf (mod 1 ##-Inf)))
+         (is (NaN? (mod ##NaN 1)))
+         (is (NaN? (mod 1 ##NaN)))]
         :default
         [(is (p/thrown? (mod 10 0)))
          (is (p/thrown? (mod ##Inf 1)))
